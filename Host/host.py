@@ -1,3 +1,4 @@
+# 
 import struct
 import sys
 import os
@@ -10,6 +11,9 @@ if sys.platform == "win32":
   msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
 
 # Thread that reads messages from the webapp.
+def recieved():
+  os.system("start cmd /k python downloader.py")  
+
 def read_thread_func():
   while True:
     # Read the message length (first 4 bytes).
@@ -36,6 +40,7 @@ def read_thread_func():
         f.write(text)
         f.close()
     # os.system('downloader.py')
+    recieved()
     
 
 # Helper function that sends a message to the webapp.
