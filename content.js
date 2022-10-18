@@ -78,16 +78,27 @@ function add_button(elem){
     button.onclick=function(){
         var  links=[];
         // console.log(elem.querySelectorAll('img'));
-        elem.querySelectorAll('img').forEach(function(e){
-            if(e.alt=="Image"){
-                links.push(e.src);
-            }
-        });
+        // elem.querySelectorAll('img').forEach(function(e){
+        //     if(e.alt=="Image"){
+        //         console.log(e);
+        //         let title;
+        //         try{
+        //         title = elem.querySelector('[href*=photo]').href.split('.com/')[1].split('/')[0];
+        //         }
+        //         catch(e){
+        //         title = e.parentElement.parentElement.parentElement.parentElement.href.split('.com/')[1].split('/')[0];
+
+        //         }
+        //         console.log(title);
+        //         let end_title=title+'_'+e.src.split('media/')[1].split('?format')[0];
+        //         links.push((e.src,end_title));
+        //     }
+        // });
         let video_flag = elem.querySelector('[data-testid=videoPlayer]');
         // console.log(video_flag);
         if(video_flag!==null){
             // console.log("No Video");
-            console.log("VIDEOVIDEO");
+            // console.log("VIDEOVIDEO");
             Array.from(elem.querySelectorAll('a')).every(function(e){
                 if (e.href.includes('status/')){
                     links.push(e.href)
@@ -98,15 +109,43 @@ function add_button(elem){
                 }
             });
         }
+        elem.querySelectorAll('[href*=photo]').forEach(function(e){
+            let title=e.href.split('.com/')[1].split('/')[0];
+            
+            let end_title=title+'_'+e.querySelector('img').src.split('media/')[1].split('?format')[0];
+            // console.log("SRC: "+e.querySelector('img').src);
+            links.push([e.querySelector('img').src,end_title]);
+            console.log('PUSHING: ',e.querySelector('img').src);
+
+        });
+        // console.log(links);
         chrome.runtime.sendMessage({
         "message":"postmessage",
         "value": links
         });
-        console.log(links);
+        
             
     }
 
 }
+
+
+chrome.runtime.onMessage.addListener( //Listens for messages sent from background script (Preferences Controller)
+    function (request, sendRespone, sendResponse){
+        // return;
+        if(request.message=='download'){
+            console.log("DOWNLOAD LINKS:");
+            console.log(request.value[0]);
+            var link = document.createElement('a');
+            link.href = request.value[0].split('com/')[1];
+            link.download = request.value[1]+'.jpg';
+            console.log("title: ",link.download);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+    
+    });
 // var port = chrome.runtime.connectNative('devdeefrancois.twitterbutton');
 //             port.onMessage.addListener(function(msg) {
 //                 console.log("Received" + msg);

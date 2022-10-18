@@ -6,7 +6,7 @@ let port = chrome.runtime.connectNative("devdeefrancois.twitterbutton");
 Listen for messages from the app.
 */
 port.onMessage.addListener((response) => {
-  console.log("Received: " + response);
+  console.log(response);
 });
 
 /*
@@ -19,7 +19,35 @@ On a click on the browser action, send the app a message.
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if(request.message=="postmessage"){
-      port.postMessage(request.value);
+      // console.log('RECIEVED: ',request.value);
+      let links = request.value;
+      links.forEach(function(e){
+        // console.log("E: ",e[0]);
+        // console.log("Download Title: ",e[1]);
+        if (e[0].includes('twimg')){
+
+          // console.log(e);
+          let fixed_link=e[0].split('?format')[0]+'.jpg';
+          // console.log("FIXED LINK: ",fixed_link);
+          // https://pbs.twimg.com/media/FeU4x8VXkBcPYBT?format=jpg&name=900x900
+          chrome.tabs.query({active: true, currentWindow: true}, function(tabs){ //Pass message onto Content.js
+                      chrome.tabs.sendMessage(tabs[0].id, {
+                        "message":"download",
+                        "value":([fixed_link,e[1]])});
+          });
+          // var link = document.createElement('a');
+          // link.href = e;
+          // link.download = 'Download.jpg';
+          // document.body.appendChild(link);
+          // link.click();
+          // document.body.removeChild(link);
+        }
+        else{
+          // console.log("NON IMAGE: ",e);
+          port.postMessage(request.value);
+        }
+      });
+      // port.postMessage(request.value);
     }
   }
 );
