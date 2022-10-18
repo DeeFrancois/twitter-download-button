@@ -11,6 +11,7 @@ import subprocess
 import json
 import sys
 import wget
+
 def main():
     if(os.path.exists('./data')):
         with open('./data','r') as f:
@@ -22,9 +23,9 @@ def main():
         jsn=json.loads(contents)
         # print(jsn[0])
         for i in jsn:
-            print(jsn[0])
+            # print(i[0])
             if('jpg' in i[0]):
-                wget.download(i[0],i[1]+'.jpg')
+                wget.download(i[0],'downloads/'+i[1]+'.jpg')
             else:
                 subprocess.run(["yt-dlp", "{}".format(i[0])])
 
@@ -37,7 +38,6 @@ def main():
         # for i in contents:
         #     print(i)
 
-    else:
-        print("HEREEWE")
+        # print("HEREEWE")
 # main(arg)
 main()

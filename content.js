@@ -79,22 +79,23 @@ function add_button(elem){
         var  links=[];
         // TODO: Check the difference between this and the "new" image fetch below (line 113)
         // console.log(elem.querySelectorAll('img'));
-        // elem.querySelectorAll('img').forEach(function(e){
-        //     if(e.alt=="Image"){
-        //         console.log(e);
-        //         let title;
-        //         try{
-        //         title = elem.querySelector('[href*=photo]').href.split('.com/')[1].split('/')[0];
-        //         }
-        //         catch(e){
-        //         title = e.parentElement.parentElement.parentElement.parentElement.href.split('.com/')[1].split('/')[0];
+        elem.querySelectorAll('img').forEach(function(e){
+            if(e.alt=="Image"){
+                console.log(e);
+                let title;
+                try{
+                title = elem.querySelector('[href*=photo]').href.split('.com/')[1].split('/')[0];
+                }
+                catch(e){
+                title = e.parentElement.parentElement.parentElement.parentElement.href.split('.com/')[1].split('/')[0];
 
-        //         }
-        //         console.log(title);
-        //         let end_title=title+'_'+e.src.split('media/')[1].split('?format')[0];
-        //         links.push((e.src,end_title));
-        //     }
-        // });
+                }
+                console.log(title);
+                let end_title=title+'_'+e.src.split('media/')[1].split('?format')[0];
+                console.log("OLD FUNCTION: ",end_title, " AND ",e.src);
+                // links.push((e.src,end_title));
+            }
+        });
         let video_flag = elem.querySelector('[data-testid=videoPlayer]');
         // console.log(video_flag);
         if(video_flag!==null){

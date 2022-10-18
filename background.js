@@ -21,20 +21,24 @@ chrome.runtime.onMessage.addListener(
     if(request.message=="postmessage"){
       // console.log('RECIEVED: ',request.value);
       let links = request.value;
+      console.log(links);
       links.forEach(function(e){
         // console.log("E: ",e[0]);
         // console.log("Download Title: ",e[1]);
+        console.log(e);
         if (e[0].includes('twimg')){
 
           // console.log(e);
           let fixed_link=e[0].split('?format')[0]+'.jpg';
           // console.log("FIXED LINK: ",fixed_link);
           // https://pbs.twimg.com/media/FeU4x8VXkBcPYBT?format=jpg&name=900x900
-          chrome.tabs.query({active: true, currentWindow: true}, function(tabs){ //Pass message onto Content.js
-                      chrome.tabs.sendMessage(tabs[0].id, {
-                        "message":"download",
-                        "value":([fixed_link,e[1]])});
-          });
+          
+          // chrome.tabs.query({active: true, currentWindow: true}, function(tabs){ //Pass message onto Content.js
+          //             chrome.tabs.sendMessage(tabs[0].id, {
+          //               "message":"download",
+          //               "value":([fixed_link,e[1]])});
+          // });
+
           // var link = document.createElement('a');
           // link.href = e;
           // link.download = 'Download.jpg';

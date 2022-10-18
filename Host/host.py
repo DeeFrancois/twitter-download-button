@@ -2,9 +2,13 @@
 import struct
 import sys
 import os
+import logging
 
 # On Windows, the default I/O mode is O_TEXT. Set this to O_BINARY
 # to avoid unwanted modifications of the input/output streams.
+# logging.basicConfig(level=logging.DEBUG)
+# logging.debug('This will get logged')
+
 if sys.platform == "win32":
   import msvcrt
   msvcrt.setmode(sys.stdin.fileno(), os.O_BINARY)
@@ -12,7 +16,8 @@ if sys.platform == "win32":
 
 # Thread that reads messages from the webapp.
 def recieved():
-  os.system("start cmd /c python downloader.py")
+  # logging.debug("In recieved")
+  os.system("start cmd /k python downloader.py")
   # subprocess.Popen(["python.exe", "downloader.py"])
   # sys.exit(0)  
 
@@ -33,16 +38,19 @@ def read_thread_func():
     # Read the text (JSON object) of the message.
     text = sys.stdin.read(text_length)
     #   print(text)
+    # logging.debug(text)
     if (os.path.exists('./data')):
       with open('./data', 'w') as f:
         f.write(text)
         f.close()
+        recieved()
     else:
       with open('./data', 'x') as f:
         f.write(text)
         f.close()
+        recieved()
     # os.system('downloader.py')
-    recieved()
+    
     
 
 # Helper function that sends a message to the webapp.
