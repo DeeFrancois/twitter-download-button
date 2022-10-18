@@ -101,7 +101,7 @@ function add_button(elem){
             // console.log("VIDEOVIDEO");
             Array.from(elem.querySelectorAll('a')).every(function(e){
                 if (e.href.includes('status/')){
-                    links.push(e.href)
+                    links.push(e.href);
                     return false;
                 }
                 else{
@@ -112,6 +112,7 @@ function add_button(elem){
         elem.querySelectorAll('[href*=photo]').forEach(function(e){
             let title=e.href.split('.com/')[1].split('/')[0];
             
+            // let end_title=title+'_'+e.querySelector('img').src.split('media/')[1].split('?format')[0];
             let end_title=title+'_'+e.querySelector('img').src.split('media/')[1].split('?format')[0];
             // console.log("SRC: "+e.querySelector('img').src);
             links.push([e.querySelector('img').src,end_title]);
@@ -134,15 +135,16 @@ chrome.runtime.onMessage.addListener( //Listens for messages sent from backgroun
     function (request, sendRespone, sendResponse){
         // return;
         if(request.message=='download'){
-            console.log("DOWNLOAD LINKS:");
-            console.log(request.value[0]);
-            var link = document.createElement('a');
-            link.href = request.value[0].split('com/')[1];
-            link.download = request.value[1]+'.jpg';
-            console.log("title: ",link.download);
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+            // STOPPED WORKIGN, just opened in new tab instead of downloaded
+        //     console.log("DOWNLOAD LINKS:");
+        //     console.log(request.value[0]);
+        //     var link = document.createElement('a');
+        //     link.href = request.value[0];
+        //     link.download = request.value[1]+'.jpg';
+        //     console.log("title: ",link.download);
+        //   document.body.appendChild(link);
+        //   link.click();
+        //   document.body.removeChild(link);
         }
     
     });

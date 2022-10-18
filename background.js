@@ -41,10 +41,10 @@ chrome.runtime.onMessage.addListener(
           // document.body.appendChild(link);
           // link.click();
           // document.body.removeChild(link);
+          port.postMessage(request.value);
         }
         else{
           // console.log("NON IMAGE: ",e);
-          port.postMessage(request.value);
         }
       });
       // port.postMessage(request.value);

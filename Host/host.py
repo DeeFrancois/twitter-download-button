@@ -12,7 +12,9 @@ if sys.platform == "win32":
 
 # Thread that reads messages from the webapp.
 def recieved():
-  os.system("start cmd /k python downloader.py")  
+  os.system("start cmd /c python downloader.py")
+  # subprocess.Popen(["python.exe", "downloader.py"])
+  # sys.exit(0)  
 
 def read_thread_func():
   while True:
