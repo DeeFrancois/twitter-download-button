@@ -17,7 +17,7 @@ var callback = function(mutationsList, observer){
 
                 if(mutation.addedNodes[0].dataset.testid=='cellInnerDiv'){
                     add_button(mutation.addedNodes[0]);
-                    console.log(mutation.addedNodes[0]);
+                    // console.log(mutation.addedNodes[0]);
                 }
             }
         }
@@ -43,16 +43,64 @@ function add_button(elem){
     // console.log(bar);
     let bar;
     try{
-    bar = elem.querySelector('[data-testid=reply]').parentElement.parentElement.parentElement;
+        bar = elem.querySelector('[data-testid=reply]').parentElement.parentElement.parentElement;
     }
     catch(e){
-    return;
+        return;
     // console.log(bar);
     }
     // console.log(bar);
     var button = document.createElement('div');
-    button.innerHTML='<div class="css-1dbjc4n r-obd0qt r-18u37iz r-1w6e6rj r-1h0z5md r-dnmrzs"><a href="" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1niwhzg r-sdzlij r-1phboty r-rs99b7 r-1loqt21 r-6gpygo r-2yi16 r-1qi8awa r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" data-testid="editProfileButton" style="border-color: rgb(83, 100, 113);"><div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(239, 243, 244);"><span class="css-901oao css-16my406 css-1hf3ou5 r-poiln3 r-a023e6 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Download</span></span></div></a></div>';
+    // button.innerHTML='<div class="css-1dbjc4n r-obd0qt r-18u37iz r-1w6e6rj r-1h0z5md r-dnmrzs"><button class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1niwhzg r-sdzlij r-1phboty r-rs99b7 r-1loqt21 r-6gpygo r-2yi16 r-1qi8awa r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" data-testid="editProfileButton" style="border-color: rgb(83, 100, 113);"><div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(239, 243, 244);"><span class="css-901oao css-16my406 css-1hf3ou5 r-poiln3 r-a023e6 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Download</span></span></div></button></div>';
+    button.innerHTML='<div class="css-1dbjc4n r-obd0qt r-18u37iz r-1w6e6rj r-1h0z5md r-dnmrzs"><a id="myhref" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1niwhzg r-sdzlij r-1phboty r-rs99b7 r-1loqt21 r-6gpygo r-2yi16 r-1qi8awa r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" data-testid="editProfileButton" style="border-color: rgb(83, 100, 113);"><div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(239, 243, 244);"><span class="css-901oao css-16my406 css-1hf3ou5 r-poiln3 r-a023e6 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Download</span></span></div></a></div>'
     bar.firstChild.appendChild(button);
+    var links = [];
+    // const urls = elem.querySelectorAll('.css-1dbjc4n.r-1adg3ll.r-1udh08x')[1].querySelectorAll('a');
+    const urls = elem.querySelectorAll('img');
+    
+    // console.log(urls);
+    // urls.forEach(function(e){
+    //     // if(elem.querySelector('[data-testid=videoPlayer]')){
+    //     //     if(e.href.includes('status/')){
+    //     //         links.push(e.href);
+    //     //         return;
+    //     //     }
+    //     // }
+    //     if (e.href.includes('/photo')){
+    //         links.push(e.href);
+    //     }
+    // });
+
+    // elem.querySelector('#myhref').href=links[0];
+    // elem.querySelector('#myhref').setAtribute('download','test.jpg');
+    // console.log(links);
+
+    button.onclick=function(){
+        var  links=[];
+        // console.log(elem.querySelectorAll('img'));
+        elem.querySelectorAll('img').forEach(function(e){
+            if(e.alt=="Image"){
+                links.push(e.src);
+            }
+        });
+        let video_flag = elem.querySelector('[data-testid=videoPlayer]');
+        // console.log(video_flag);
+        if(video_flag!==null){
+            // console.log("No Video");
+            console.log("VIDEOVIDEO");
+            Array.from(elem.querySelectorAll('a')).every(function(e){
+                if (e.href.includes('status/')){
+                    links.push(e.href)
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            });
+        }
+        console.log(links);
+    }
+
 }
 
 
