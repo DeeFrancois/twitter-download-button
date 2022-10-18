@@ -1,7 +1,28 @@
 // background.js
 
+let port = chrome.runtime.connectNative("devdeefrancois.twitterbutton");
 
+/*
+Listen for messages from the app.
+*/
+port.onMessage.addListener((response) => {
+  console.log("Received: " + response);
+});
 
+/*
+On a click on the browser action, send the app a message.
+*/
+// chrome.browserAction.onClicked.addListener(() => {
+//   console.log("Sending:  ping");
+//   port.postMessage("ping");
+// });
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if(request.message=="postmessage"){
+      port.postMessage(request.value);
+    }
+  }
+);
 // chrome.runtime.onInstalled.addListener(function(details){
 //   if(details.reason == "install"){
 //     chrome.tabs.create({ url: chrome.runtime.getURL("tutorial.html") });

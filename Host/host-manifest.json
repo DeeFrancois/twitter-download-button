@@ -1,0 +1,9 @@
+{
+    "name": "devdeefrancois.twitterbutton",
+    "description": "Twitter Download Button",
+    "path": "C:\\Users\\damet\\Desktop\\New folder\\Programming\\Github_Projects\\Personal_WIP_Directory\\twitter_ext\\Host\\host.py",
+    "type": "stdio",
+    "allowed_origins": [
+      "chrome-extension://clpldhgflbcifgfefijggomjjmfonjmc/"
+    ]
+  }
