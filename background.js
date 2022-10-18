@@ -40,10 +40,11 @@ chrome.runtime.onMessage.addListener(
           // link.download = 'Download.jpg';
           // document.body.appendChild(link);
           // link.click();
-          // document.body.removeChild(link);
           port.postMessage(request.value);
+          // document.body.removeChild(link);
         }
         else{
+          port.postMessage(request.value);
           // console.log("NON IMAGE: ",e);
         }
       });

@@ -77,6 +77,7 @@ function add_button(elem){
 
     button.onclick=function(){
         var  links=[];
+        // TODO: Check the difference between this and the "new" image fetch below (line 113)
         // console.log(elem.querySelectorAll('img'));
         // elem.querySelectorAll('img').forEach(function(e){
         //     if(e.alt=="Image"){
@@ -98,10 +99,10 @@ function add_button(elem){
         // console.log(video_flag);
         if(video_flag!==null){
             // console.log("No Video");
-            // console.log("VIDEOVIDEO");
+            console.log("VIDEOVIDEO");
             Array.from(elem.querySelectorAll('a')).every(function(e){
                 if (e.href.includes('status/')){
-                    links.push(e.href);
+                    links.push([e.href,'']);
                     return false;
                 }
                 else{

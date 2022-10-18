@@ -22,10 +22,15 @@ def main():
         jsn=json.loads(contents)
         # print(jsn[0])
         for i in jsn:
-            wget.download(i[0],i[1]+'.jpg')
-        sys.exit(0)
+            print(jsn[0])
+            if('jpg' in i[0]):
+                wget.download(i[0],i[1]+'.jpg')
+            else:
+                subprocess.run(["yt-dlp", "{}".format(i[0])])
+
+
+        # sys.exit(0)
             # subprocess.run(["wget", '-o','{}'.format(i[1]),"{}".format(i[0])])
-            # subprocess.run(["yt-dlp", "{}".format(i)])
 
         # print(jsn)
         # print(jsn[0])
