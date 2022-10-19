@@ -25,6 +25,7 @@ def recieved():
 
 def read_thread_func():
   while True:
+    print("Host running")
     # Read the message length (first 4 bytes).
     text_length_bytes = sys.stdin.buffer.read(4)
     

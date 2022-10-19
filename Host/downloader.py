@@ -25,10 +25,11 @@ def main():
         # print(jsn[0])
         for i in jsn:
             # print(i[0])
-            print(type(i))
             print(i)
             if('jpg' in i[0]):
-                wget.download(i[0],'downloads/'+i[1]+'.jpg')
+                large_link=i[0].split('name=')[0]+'name=large'
+                print(large_link)
+                wget.download(large_link,'downloads/'+i[1]+'.jpg')
             else:
                 subprocess.run(["yt-dlp", " {}".format(i[0]),"-o",r"downloads/%(title)s.%(ext)s"])
 
