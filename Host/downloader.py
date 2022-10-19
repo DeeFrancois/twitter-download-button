@@ -30,7 +30,7 @@ def main():
             if('jpg' in i[0]):
                 wget.download(i[0],'downloads/'+i[1]+'.jpg')
             else:
-                subprocess.run(["yt-dlp", " {}".format(i[0])])
+                subprocess.run(["yt-dlp", " {}".format(i[0]),"-o",r"downloads/%(title)s.%(ext)s"])
 
 
         # sys.exit(0)
