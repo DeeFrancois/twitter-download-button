@@ -17,7 +17,7 @@ if sys.platform == "win32":
 # Thread that reads messages from the webapp.
 def recieved():
   # logging.debug("In recieved")
-  os.system("start cmd /k python downloader.py")
+  os.system("start cmd /c python downloader.py")
   # subprocess.Popen(["python.exe", "downloader.py"])
   # sys.exit(0)  
 

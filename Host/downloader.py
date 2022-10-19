@@ -17,17 +17,20 @@ def main():
         with open('./data','r') as f:
             # print("BLAH")
             contents = f.readline()
-            # print(contents)
+            print("CONTENTS: ",contents)
             f.close()
         
-        jsn=json.loads(contents)
+        jsn=list(json.loads(contents))
+        print("JSON: ",jsn)
         # print(jsn[0])
         for i in jsn:
             # print(i[0])
+            print(type(i))
+            print(i)
             if('jpg' in i[0]):
                 wget.download(i[0],'downloads/'+i[1]+'.jpg')
             else:
-                subprocess.run(["yt-dlp", "{}".format(i[0])])
+                subprocess.run(["yt-dlp", " {}".format(i[0])])
 
 
         # sys.exit(0)
