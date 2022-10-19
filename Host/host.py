@@ -17,6 +17,8 @@ if sys.platform == "win32":
 # Thread that reads messages from the webapp.
 def recieved():
   # logging.debug("In recieved")
+  # printf("Here")
+  print("testtesttest",file=sys.stderr)
   os.system("start cmd /c python downloader.py")
   # subprocess.Popen(["python.exe", "downloader.py"])
   # sys.exit(0)  
@@ -37,6 +39,10 @@ def read_thread_func():
     
     # Read the text (JSON object) of the message.
     text = sys.stdin.read(text_length)
+    # test = text.decode('utf-8')
+    # testr = json.loads(test)
+    # print(testr)
+    
     #   print(text)
     # logging.debug(text)
     if (os.path.exists('./data')):
