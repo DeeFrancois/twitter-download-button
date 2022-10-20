@@ -2,11 +2,13 @@
 import struct
 import sys
 import os
+import wget
 import logging
+import json
 
 # On Windows, the default I/O mode is O_TEXT. Set this to O_BINARY
 # to avoid unwanted modifications of the input/output streams.
-# logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 # logging.debug('This will get logged')
 
 if sys.platform == "win32":
@@ -15,17 +17,25 @@ if sys.platform == "win32":
   msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
 
 # Thread that reads messages from the webapp.
-def recieved():
-  # logging.debug("In recieved")
-  # printf("Here")
-  print("testtesttest",file=sys.stderr)
-  os.system("start cmd /c python downloader.py")
+def downloader(text):
+  curr_path = os.getcwd()
+  jsn=list(json.loads(text))
+  for i in jsn:
+    if('jpg' in i[0]):
+      large_link=i[0].split('name=')[0]+'name=large'
+      print(large_link,file=sys.stderr)
+      print(i[1],file=sys.stderr)
+      wget.download(large_link,'downloads/'+i[1]+'.jpg')
+    else:
+      subprocess.run(["yt-dlp", " {}".format(i[0]),"-o",r"downloads/%(title)s.%(ext)s"])
+
+  # wget.download(text[0],text[1]+'.jpg')
+  # os.system("start cmd /c python downloader.py")
   # subprocess.Popen(["python.exe", "downloader.py"])
   # sys.exit(0)  
 
 def read_thread_func():
   while True:
-    print("Host running")
     # Read the message length (first 4 bytes).
     text_length_bytes = sys.stdin.buffer.read(4)
     
@@ -50,12 +60,12 @@ def read_thread_func():
       with open('./data', 'w') as f:
         f.write(text)
         f.close()
-        recieved()
+        downloader(text)
     else:
       with open('./data', 'x') as f:
         f.write(text)
         f.close()
-        recieved()
+        downloader(text)
     # os.system('downloader.py')
     
     
