@@ -116,10 +116,11 @@ function add_button(elem){
             let title=e.href.split('.com/')[1].split('/')[0];
             
             // let end_title=title+'_'+e.querySelector('img').src.split('media/')[1].split('?format')[0];
-            let end_title=title+'_'+e.querySelector('img').src.split('media/')[1].split('?format')[0];
+            // let end_title=title+'_'+e.querySelector('img').src.split('media/')[1].split('?format')[0];
+            let end_title=title+'_'+e.href.split('/status/')[1].split('/photo/')[0];
             // console.log("SRC: "+e.querySelector('img').src);
             links.push([e.querySelector('img').src,end_title]);
-            console.log('PUSHING: ',e.querySelector('img').src);
+            console.log('PUSHING: ',e.querySelector('img').src, end_title);
 
         });
         // console.log(links);
