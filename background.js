@@ -7,7 +7,13 @@ var download_queue = [];
 Listen for messages from the app.
 */
 port.onMessage.addListener((response) => {
-  console.log(response);
+  // console.log("IN MSG");
+  // console.log(response);
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs){ //Pass message onto Content.js
+    chrome.tabs.sendMessage(tabs[0].id, {
+      "message":"downloaded",
+      "value":response});
+  });
 });
 
 /*
@@ -21,7 +27,7 @@ On a click on the browser action, send the app a message.
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if(request.message=="postmessage"){
-      console.log('RECIEVED: ',request.value);
+      // console.log('RECIEVED: ',request.value);
       port.postMessage(request.value);
       // let links = request.value;
       // console.log(links);
@@ -60,11 +66,6 @@ chrome.runtime.onMessage.addListener(
 //         console.log("Background.js recieved message from SLIDER to update on_off to " + request.value);
 //         chrome.storage.sync.set({'on_off':request.value});           //Store into local variables
         
-//         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){ //Pass message onto Content.js
-//           chrome.tabs.sendMessage(tabs[0].id, {
-//             "message":"update_on_off",
-//             "value":request.value});
-//         });
 
 //       }
 

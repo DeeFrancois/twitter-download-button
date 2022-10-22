@@ -120,7 +120,7 @@ function add_button(elem){
             let end_title=title+'_'+e.href.split('/status/')[1].split('/photo/')[0];
             // console.log("SRC: "+e.querySelector('img').src);
             links.push([e.querySelector('img').src,end_title]);
-            console.log('PUSHING: ',e.querySelector('img').src, end_title);
+            // console.log('PUSHING: ',e.querySelector('img').src, end_title);
 
         });
         // console.log(links);
@@ -138,7 +138,17 @@ function add_button(elem){
 chrome.runtime.onMessage.addListener( //Listens for messages sent from background script (Preferences Controller)
     function (request, sendRespone, sendResponse){
         // return;
-        if(request.message=='download'){
+        if(request.message=='downloaded'){
+            let file_count = request.value.msg;
+            var button = document.createElement('div');
+            button.innerHTML=`<div class="css-1dbjc4n r-1awozwy" id="my-notification-container"><div role="status" class="css-1dbjc4n r-6dt33c r-1kw4oii r-d3hbe1 r-eafdt9 r-1b8bd59 r-6czh2s"><div aria-label="New Tweets are available. Push period to go to the beginning of your timeline and view them" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-l5o3uw r-sdzlij r-1uusn97 r-1777fci r-1r5su4o r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg" id="my-notification" style="background-color:grey" ><div class="css-1dbjc4n r-18u37iz r-oyd9sg"><div dir="auto" class="css-901oao css-1hf3ou5 r-1kihuf0 r-jwli3a r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0"><span dir="ltr" class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-1udh08x r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Downloaded ${file_count} File(s)</span></span></span></div></div></div></div></div>`;
+            let bar = document.getElementsByClassName('css-1dbjc4n r-633pao r-u8s1d r-dkhcqf r-axxi2z r-18jm5s1 r-13qz1uu r-1wyyakw')[0]
+            bar.append(button);
+            // console.log("Download complete");
+            setTimeout(function(){
+                // console.log("Removing button");
+                button.remove();
+            },1000);
             // STOPPED WORKIGN, just opened in new tab instead of downloaded
         //     console.log("DOWNLOAD LINKS:");
         //     console.log(request.value[0]);

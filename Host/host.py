@@ -8,7 +8,7 @@ import json
 import subprocess
 # On Windows, the default I/O mode is O_TEXT. Set this to O_BINARY
 # to avoid unwanted modifications of the input/output streams.
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 # logging.debug('This will get logged')
 
 if sys.platform == "win32":
@@ -20,14 +20,21 @@ if sys.platform == "win32":
 def downloader(text):
   curr_path = os.getcwd()
   jsn=list(json.loads(text))
+  count = 0
   for i in jsn:
     if('jpg' in i[0]):
       large_link=i[0].split('name=')[0]+'name=large'
       print(large_link,file=sys.stderr)
       print(i[1],file=sys.stderr)
       wget.download(large_link,'downloads/'+i[1]+'.jpg')
+      count+=1
     else:
+      count+=1
       subprocess.run(["yt-dlp", " {}".format(i[0]),"-o",r"downloads/%(title)s.%(ext)s"])
+  # send_message('{"msg": "Download Complete!"}')
+  msg_string = f'{{"msg": "{count}"}}'
+
+  send_message(msg_string)
 
   # wget.download(text[0],text[1]+'.jpg')
   # os.system("start cmd /c python downloader.py")
