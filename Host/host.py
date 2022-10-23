@@ -1,5 +1,6 @@
 # 
 from asyncio.subprocess import PIPE
+from cgi import test
 import struct
 import sys
 import os
@@ -22,18 +23,17 @@ def downloader(text):
   curr_path = os.getcwd()
   jsn=list(json.loads(text))
   count = 0
-  for i in jsn:
+  curr_id = jsn[1]
+  for i in jsn[0]:
     if('jpg' in i[0]):
       large_link=i[0].split('name=')[0]+'name=large'
-      print(large_link,file=sys.stderr)
-      print(i[1],file=sys.stderr)
       wget.download(large_link,'downloads/'+i[1]+'.jpg')
       count+=1
     else:
       count+=1
       subprocess.run(["yt-dlp", " {}".format(i[0]),"-o",r"downloads/%(uploader_id)s_%(id)s.%(ext)s"],stdout=sys.stderr)
   # send_message('{"msg": "Download Complete!"}')
-  msg_string = f'{{"msg": "{count}"}}'
+  msg_string = f'{{"msg": "{count}","button_id":"{curr_id}"}}'
 
   send_message(msg_string)
 

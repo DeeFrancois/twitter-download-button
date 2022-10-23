@@ -1,7 +1,4 @@
-
-
-
-
+var button_count = 0;
 window.initial_config = {childList:true, subtree:true,}
 var last_url=location.href;
 
@@ -52,7 +49,10 @@ function add_button(elem){
     // console.log(bar);
     var button = document.createElement('div');
     // button.innerHTML='<div class="css-1dbjc4n r-obd0qt r-18u37iz r-1w6e6rj r-1h0z5md r-dnmrzs"><button class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1niwhzg r-sdzlij r-1phboty r-rs99b7 r-1loqt21 r-6gpygo r-2yi16 r-1qi8awa r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" data-testid="editProfileButton" style="border-color: rgb(83, 100, 113);"><div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(239, 243, 244);"><span class="css-901oao css-16my406 css-1hf3ou5 r-poiln3 r-a023e6 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Download</span></span></div></button></div>';
+    
     button.innerHTML='<div class="css-1dbjc4n r-obd0qt r-18u37iz r-1w6e6rj r-1h0z5md r-dnmrzs"><a id="myhref" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1niwhzg r-sdzlij r-1phboty r-rs99b7 r-1loqt21 r-6gpygo r-2yi16 r-1qi8awa r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" data-testid="editProfileButton" style="border-color: rgb(83, 100, 113);"><div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(239, 243, 244);"><span class="css-901oao css-16my406 css-1hf3ou5 r-poiln3 r-a023e6 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Download</span></span></div></a></div>'
+    button.firstChild.id='my_button_'+button_count;
+    button_count+=1;
     bar.firstChild.appendChild(button);
     var links = [];
     // const urls = elem.querySelectorAll('.css-1dbjc4n.r-1adg3ll.r-1udh08x')[1].querySelectorAll('a');
@@ -75,32 +75,17 @@ function add_button(elem){
     // elem.querySelector('#myhref').setAtribute('download','test.jpg');
     // console.log(links);
 
-    button.onclick=function(){
+    button.onclick=function(e){
+        // elem.firstChild.firstChild.style['background-color']='pink';
+        // console.log(elem);
         var  links=[];
-        // TODO: Check the difference between this and the "new" image fetch below (line 113)
-        // console.log(elem.querySelectorAll('img'));
-        // elem.querySelectorAll('img').forEach(function(e){
-        //     if(e.alt=="Image"){
-        //         console.log(e);
-        //         let title;
-        //         try{
-        //         title = elem.querySelector('[href*=photo]').href.split('.com/')[1].split('/')[0];
-        //         }
-        //         catch(e){
-        //         title = e.parentElement.parentElement.parentElement.parentElement.href.split('.com/')[1].split('/')[0];
-
-        //         }
-        //         console.log(title);
-        //         let end_title=title+'_'+e.src.split('media/')[1].split('?format')[0];
-        //         console.log("OLD FUNCTION: ",end_title, " AND ",e.src);
-        //         // links.push((e.src,end_title));
-        //     }
-        // });
         let video_flag = elem.querySelector('[data-testid=videoPlayer]');
-        // console.log(video_flag);
+        // console.log(this.firstChild.id);
+        let current_id = this.firstChild.id;
+        // console.log(current_id);
         if(video_flag!==null){
             // console.log("No Video");
-            console.log("VIDEOVIDEO");
+            // console.log("VIDEOVIDEO");
             Array.from(elem.querySelectorAll('a')).every(function(e){
                 if (e.href.includes('status/')){
                     links.push([e.href,'']);
@@ -112,7 +97,7 @@ function add_button(elem){
             });
         }
         elem.querySelectorAll('[href*=\\/photo\\/]').forEach(function(e){
-            console.log(e);
+            // console.log(e);
             let title=e.href.split('.com/')[1].split('/')[0];
             
             // let end_title=title+'_'+e.querySelector('img').src.split('media/')[1].split('?format')[0];
@@ -123,25 +108,45 @@ function add_button(elem){
             // console.log('PUSHING: ',e.querySelector('img').src, end_title);
 
         });
-        // console.log(links);
         chrome.runtime.sendMessage({
         "message":"postmessage",
-        "value": links
+        "value": links,
+        "button_id":current_id
         });
+        download_started(current_id);
         
             
     }
 
 }
 
+function download_started(button_id){
+    let button = document.querySelector(`#${button_id}`).firstChild; 
+    button.style['background-color']='rgb(239, 243, 244)';
+    // button.firstChild.firstChild.firstChild.innerText='..';
+    // button.firstChild.style['filter']='blur(1px)';
 
+    
+
+}
+function download_complete(button_id){
+    let button = document.querySelector(`#${button_id}`).firstChild; 
+    // button.style['background-color']='#003300';
+    // button.firstChild.style['filter']='blur(0px)';
+    button.style['background-color']='';
+    // setTimeout(function(){
+    //     button.style['background-color']='';
+    //     // button.firstChild.firstChild.firstChild.innerText='Download';
+    // },500);
+
+}
 chrome.runtime.onMessage.addListener( //Listens for messages sent from background script (Preferences Controller)
     function (request, sendRespone, sendResponse){
         // return;
         if(request.message=='downloaded'){
             let file_count = request.value.msg;
             var button = document.createElement('div');
-            button.innerHTML=`<div class="css-1dbjc4n r-1awozwy" id="my-notification-container"><div role="status" class="css-1dbjc4n r-6dt33c r-1kw4oii r-d3hbe1 r-eafdt9 r-1b8bd59 r-6czh2s"><div aria-label="New Tweets are available. Push period to go to the beginning of your timeline and view them" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-l5o3uw r-sdzlij r-1uusn97 r-1777fci r-1r5su4o r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg" id="my-notification" style="background-color:grey" ><div class="css-1dbjc4n r-18u37iz r-oyd9sg"><div dir="auto" class="css-901oao css-1hf3ou5 r-1kihuf0 r-jwli3a r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0"><span dir="ltr" class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-1udh08x r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Downloaded ${file_count} File(s)</span></span></span></div></div></div></div></div>`;
+            button.innerHTML=`<div class="css-1dbjc4n r-1awozwy" id="my-notification-container"><div role="status" class="css-1dbjc4n r-6dt33c r-1kw4oii r-d3hbe1 r-eafdt9 r-1b8bd59 r-6czh2s"><div style="background-color:green" aria-label="New Tweets are available. Push period to go to the beginning of your timeline and view them" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-l5o3uw r-sdzlij r-1uusn97 r-1777fci r-1r5su4o r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg" id="my-notification" style="background-color:grey" ><div class="css-1dbjc4n r-18u37iz r-oyd9sg"><div dir="auto" class="css-901oao css-1hf3ou5 r-1kihuf0 r-jwli3a r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0"><span dir="ltr" class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-1udh08x r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Downloaded ${file_count} File(s)</span></span></span></div></div></div></div></div>`;
             let bar = document.getElementsByClassName('css-1dbjc4n r-633pao r-u8s1d r-dkhcqf r-axxi2z r-18jm5s1 r-13qz1uu r-1wyyakw')[0]
             bar.append(button);
             // console.log("Download complete");
@@ -149,6 +154,10 @@ chrome.runtime.onMessage.addListener( //Listens for messages sent from backgroun
                 // console.log("Removing button");
                 button.remove();
             },1000);
+            // console.log(request.elem);
+            download_complete(request.value.button_id);
+            // request.elem.style.backgroundColor = 'pink'
+            // request.elem.firstChild.firstChild.style['background-color']='pink';
             // STOPPED WORKIGN, just opened in new tab instead of downloaded
         //     console.log("DOWNLOAD LINKS:");
         //     console.log(request.value[0]);

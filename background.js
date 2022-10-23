@@ -2,7 +2,6 @@
 
 let port = chrome.runtime.connectNative("devdeefrancois.twitterbutton");
 var download_queue = [];
-
 /*
 Listen for messages from the app.
 */
@@ -27,12 +26,12 @@ On a click on the browser action, send the app a message.
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if(request.message=="postmessage"){
-      // console.log('RECIEVED: ',request.value);
-      port.postMessage(request.value);
+      port.postMessage([request.value,request.button_id]);
       // let links = request.value;
       // console.log(links);
       
     }
+    
   });
   // "https://pbs.twimg.com/media/FdWT_3NXkAITVvk?format=jpg&name=360x360"
 
