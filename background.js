@@ -31,6 +31,12 @@ chrome.runtime.onMessage.addListener(
       // console.log(links);
       
     }
+    if(request.message=="open-folder"){
+      port.postMessage(['open','now']);
+      // let links = request.value;
+      // console.log(links);
+      
+    }
     
   });
   // "https://pbs.twimg.com/media/FdWT_3NXkAITVvk?format=jpg&name=360x360"

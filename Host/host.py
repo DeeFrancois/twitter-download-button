@@ -24,7 +24,14 @@ def downloader(text):
   jsn=list(json.loads(text))
   count = 0
   curr_id = jsn[1]
+  # print(jsn[0],file=sys.stderr)
+  if (jsn[0] == 'open'):
+    print('startfile',file=sys.stderr)
+    os.startfile('downloads')
+    return
+  
   for i in jsn[0]:
+    # print(i,sys.stderr)
     if('jpg' in i[0]):
       large_link=i[0].split('name=')[0]+'name=large'
       wget.download(large_link,'downloads/'+i[1]+'.jpg')
