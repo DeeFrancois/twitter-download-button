@@ -31,7 +31,7 @@ def downloader(text):
       count+=1
     else:
       count+=1
-      subprocess.run(["yt-dlp", " {}".format(i[0]),"-o",r"downloads/%(uploader_id)s_%(id)s.%(ext)s"],stdout=sys.stderr)
+      subprocess.run(["yt-dlp", "--mtime"," {}".format(i[0]),"-o",r"downloads/%(uploader_id)s_%(id)s.%(ext)s"],stdout=sys.stderr)
   # send_message('{"msg": "Download Complete!"}')
   msg_string = f'{{"msg": "{count}","button_id":"{curr_id}"}}'
 

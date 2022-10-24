@@ -137,7 +137,7 @@ function download_complete(button_id){
     // setTimeout(function(){
     //     button.style['background-color']='';
     //     // button.firstChild.firstChild.firstChild.innerText='Download';
-    // },500);
+    // },1000);
 
 }
 chrome.runtime.onMessage.addListener( //Listens for messages sent from background script (Preferences Controller)
@@ -153,7 +153,7 @@ chrome.runtime.onMessage.addListener( //Listens for messages sent from backgroun
             setTimeout(function(){
                 // console.log("Removing button");
                 button.remove();
-            },1000);
+            },1500);
             // console.log(request.elem);
             download_complete(request.value.button_id);
             // request.elem.style.backgroundColor = 'pink'
