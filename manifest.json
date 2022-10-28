@@ -1,8 +1,8 @@
 {
     "manifest_version":3,
     "name": "Twitter Download Button",
-    "description":"Adds download button to tweets",
-    "version": "0.1",
+    "description":"Adds a download button to tweets",
+    "version": "1",
     "icons":{
         "32":"icons/icon32.png"
     },
@@ -18,8 +18,7 @@
         }
     ],
     "action":{
-        "default_icon":"icons/icon32.png",
-        "default_popup":"popup.html"
+        "default_icon":"icons/icon32.png"
     },
     "permissions":["nativeMessaging"]
 
