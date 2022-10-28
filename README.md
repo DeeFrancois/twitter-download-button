@@ -4,9 +4,9 @@ Adds a download button to twitter posts.
 
 ![demo](https://github.com/DeeFrancois/twitter-download-button/blob/main/DocumentationImages/demo.gif)
 
-This is a Chrome Extension that utilizes [Native Messaging](https://developer.chrome.com/docs/apps/nativeMessaging/). Native Messaging allows the extension to communicate with a local Python program running in the background as a host. 
+This is a Chrome Extension that implements [Native Messaging](https://developer.chrome.com/docs/apps/nativeMessaging/). Native Messaging allows the extension to communicate with a local Python program operating as a live host. 
 
-The download urls are scraped with Javascript and sent as a package to the Python script where it is then processed and input into either yt-dlp/wget for downloading. 
+The download urls are scraped with Javascript and sent as a package to the Python script where it is then processed and input into yt-dlp/wget for downloading. 
 When the downloads are finished, the Python program is able to communicate back to the extension which triggers the success notification.
 
 ## Motivation
@@ -21,7 +21,7 @@ that I imagine will help me automate a bunch of other tasks.
 ## Setup
 
 Native Messaging requires a bit of extra setup as explained [here](https://developer.chrome.com/docs/apps/nativeMessaging/). 
-The python must be "registered" which you can do by first edit the manifest file to match your system. Only the **path** and the **chrome-extension** fields will need to be modified:
+The host program (Host.py) must be "registered", which is done by first editing the included manifest file to match your system. Only the **path** and the **chrome-extension** fields need to be modified:
 ```
   {
     "name": "com.my_company.my_application",
@@ -43,10 +43,10 @@ Windows Registry Editor Version 5.00
 ```
 Then just save that as a .reg file and run it
 
-## DEBUG / LOGS
+## Viewing download logs
 
-Host.py's stdin/stdout are set to Binary mode for communication, so the typical console activity is instead piped into stderr. 
-Stderr output is written to the browser and the only way to access it is to run Chrome with logging enabled. This can be done by navigating to the Chrome binary and using cmd to run it with the following args:
+Host.py's stdin/stdout are set to Binary mode for communication so the typical console activity that you'd see from yt-dlp and wget are instead piped into stderr. 
+The stderr activity is written to the browser's error logs so if you want to view it you'll need to run Chrome with logging enabled. This can be done by navigating to the Chrome binary and using cmd to run it with the following args:
 ```
 C:\Program Files\Google\Chrome\Application\chrome.exe --enable-logging --v=1
 ```
