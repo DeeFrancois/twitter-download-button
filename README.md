@@ -21,7 +21,7 @@ that I imagine will help me automate a bunch of other tasks.
 ## Native Messaging Setup 
 
 Native Messaging requires a bit of extra setup as explained [here](https://developer.chrome.com/docs/apps/nativeMessaging/). 
-The host program (Host.py) must be "registered", which is done by first editing the included manifest file to match your system. Only the **path** and the **chrome-extension** fields need to be modified:
+The host program (Host.py) must be "registered", which is done by first editing the included manifest file to match your system. Only the **path** and the **chrome-extension** fields need to be modified (will also need the **name** field for the next step):
 
 Host/host-manifest.json:
 ```
