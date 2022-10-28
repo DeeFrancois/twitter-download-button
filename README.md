@@ -22,6 +22,8 @@ that I imagine will help me automate a bunch of other tasks.
 
 Native Messaging requires a bit of extra setup as explained [here](https://developer.chrome.com/docs/apps/nativeMessaging/). 
 The host program (Host.py) must be "registered", which is done by first editing the included manifest file to match your system. Only the **path** and the **chrome-extension** fields need to be modified:
+
+Host/host-manifest.json:
 ```
   {
     "name": "com.my_company.my_application",
@@ -39,7 +41,7 @@ Next, you need to create a Registry Key. You can do this by creating a new text 
 ```
 Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Google\Chrome\NativeMessagingHosts\com.my_company.my_application]
-@="C:\\path\\to\\nmh-manifest.json"
+@="C:\\path\\to\\host-manifest.json"
 ```
 Then just save that as a .reg file and run it
 
