@@ -18,7 +18,7 @@ that I imagine will help me automate a bunch of other tasks.
 - yt-dlp https://github.com/yt-dlp/yt-dlp#installation
 - wget https://www.gnu.org/software/wget/
 
-## Setup
+## Native Messaging Setup 
 
 Native Messaging requires a bit of extra setup as explained [here](https://developer.chrome.com/docs/apps/nativeMessaging/). 
 The host program (Host.py) must be "registered", which is done by first editing the included manifest file to match your system. Only the **path** and the **chrome-extension** fields need to be modified:
