@@ -37,6 +37,9 @@ chrome.runtime.onMessage.addListener(
       // console.log(links);
       
     }
+    if(request.message=="rename-latest"){
+      port.postMessage(['rename','now']);
+    }
     
   });
   // "https://pbs.twimg.com/media/FdWT_3NXkAITVvk?format=jpg&name=360x360"

@@ -17,11 +17,12 @@ var callback = function(mutationsList, observer){
                     if(add_nav){
                         add_nav=0;
                         var open_folder_button = document.createElement('div');
-                        open_folder_button.innerHTML='<div aria-expanded="false" aria-haspopup="menu" aria-label="inject-nav" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-1habvwh r-6koalj r-eqz5dr r-16y2uox r-1ny4l3l r-oyd9sg r-13qz1uu" data-testid="AppTabBar_More_Menu"><div class="css-1dbjc4n r-1awozwy r-1hdo0pc r-sdzlij r-18u37iz r-1777fci r-dnmrzs r-xyw6el r-o7ynqc r-6416eg"><div class="css-1dbjc4n"></div><div dir="auto" class="css-901oao css-1hf3ou5 r-1nao33i r-37j5jr r-adyw6z r-16dba41 r-135wba7 r-1joea0r r-88pszg r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Downloads Folder</span></div></div></div>';
+                        open_folder_button.innerHTML='<div aria-expanded="false" aria-haspopup="menu" aria-label="inject-nav" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-1habvwh r-6koalj r-eqz5dr r-16y2uox r-1ny4l3l r-oyd9sg r-13qz1uu" data-testid="AppTabBar_More_Menu"><div class="css-1dbjc4n r-1awozwy r-1hdo0pc r-sdzlij r-18u37iz r-1777fci r-dnmrzs r-xyw6el r-o7ynqc r-6416eg"><div class="css-1dbjc4n"></div><div dir="auto" class="css-901oao css-1hf3ou5 r-1nao33i r-37j5jr r-adyw6z r-16dba41 r-135wba7 r-1joea0r r-88pszg r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0" style="font-size:smaller">Open Downloads Folder</span></div></div></div>';
                         document.querySelector('.css-1dbjc4n.r-15zivkp.r-1bymd8e.r-13qz1uu').append(open_folder_button);
                         open_folder_button.onclick=function(){
                             chrome.runtime.sendMessage({
                                 "message":"open-folder",
+                                // "message":"rename-latest",
                                 "value": 'now',
                                 });
                         };

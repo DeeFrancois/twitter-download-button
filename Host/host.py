@@ -8,6 +8,7 @@ import wget
 import logging
 import json
 import subprocess
+import glob
 # On Windows, the default I/O mode is O_TEXT. Set this to O_BINARY
 # to avoid unwanted modifications of the input/output streams.
 # logging.basicConfig(level=logging.DEBUG)
@@ -29,6 +30,15 @@ def downloader(text):
     print('startfile',file=sys.stderr)
     os.startfile('downloads')
     return
+  if (jsn[0]=='rename'):
+    print('rename_last_download',file=sys.stderr)
+    list_of_files = glob.glob('downloads/*') # * means all if need specific format then *.csv
+    latest_file = max(list_of_files, key=os.path.getmtime)
+    os.startfile(latest_file)
+    print(latest_file,file=sys.stderr)
+    
+
+
   
   for i in jsn[0]:
     # print(i,sys.stderr)
@@ -38,7 +48,7 @@ def downloader(text):
       count+=1
     else:
       count+=1
-      subprocess.run(["yt-dlp", "--mtime"," {}".format(i[0]),"-o",r"downloads/%(uploader_id)s_%(id)s.%(ext)s"],stdout=sys.stderr)
+      subprocess.run(["yt-dlp"," {}".format(i[0]),"--no-mtime","-o",r"downloads/%(uploader_id)s_%(id)s.%(ext)s"],stdout=sys.stderr)
   # send_message('{"msg": "Download Complete!"}')
   msg_string = f'{{"msg": "{count}","button_id":"{curr_id}"}}'
 
