@@ -41,8 +41,35 @@ window.initial_observer.observe(document.documentElement,window.initial_config);
 // /html/body/div[1]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/section/div
 // window.initial_observer = new MutationObserver(callback);
 // window.initial_observer.observe(document.documentElement,window.initial_config);
+function archive_link(link){
+    chrome.runtime.sendMessage({
+        "message":"archive-link",
+        "value": link
+        });
+}
+
+function check_elem(el){
+    var arr = el.querySelectorAll('a');
+    for (let i =0; i<arr.length;i++){
+        
+        if(arr[i].href && arr[i].href.includes('status')){
+            archive_link(arr[i].href);
+            return;
+        }
+    }
+    // }
+    // Array.from(el.querySelectorAll('a')).every(function(e){
+    //     if(e.href.includes('status')){
+    //         archive_link(e.href);
+    //         return;
+    //     }
+    // });
+}
+
 function add_button(elem){
+    // check_elem(elem); // FOR PULLING LIST OF TWEETS
     // console.log(elem);
+    
     // const bar = elem.querySelector('.css-1dbjc4n.r-eqz5dr.r-1pi2tsx.r-13qz1uu');
     // if(bar===null){
     //     var elem = document.querySelector('[data-testid=cellInnerDiv]');

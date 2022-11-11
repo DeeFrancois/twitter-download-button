@@ -36,6 +36,14 @@ def downloader(text):
     latest_file = max(list_of_files, key=os.path.getmtime)
     os.startfile(latest_file)
     print(latest_file,file=sys.stderr)
+    return
+  # if (jsn[0]=='archive'):
+  #   print("ARCHIVING: ",jsn[1],file=sys.stderr)
+  #   f = open("archive.txt", "a")
+  #   f.write(jsn[1]+'\n')
+  #   f.close()
+  #   return
+
     
 
 

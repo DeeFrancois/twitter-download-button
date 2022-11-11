@@ -40,6 +40,10 @@ chrome.runtime.onMessage.addListener(
     if(request.message=="rename-latest"){
       port.postMessage(['rename','now']);
     }
+
+    if(request.message=='archive-link'){
+      port.postMessage(['archive',request.value])
+    }
     
   });
   // "https://pbs.twimg.com/media/FdWT_3NXkAITVvk?format=jpg&name=360x360"
