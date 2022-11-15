@@ -42,7 +42,7 @@ chrome.runtime.onMessage.addListener(
     }
 
     if(request.message=='archive-link'){
-      port.postMessage(['archive',request.value])
+      port.postMessage(['archive',request.value]);
     }
     
   });

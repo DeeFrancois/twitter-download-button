@@ -51,12 +51,15 @@ def downloader(text):
   for i in jsn[0]:
     # print(i,sys.stderr)
     if('jpg' in i[0]):
-      large_link=i[0].split('name=')[0]+'name=large'
-      wget.download(large_link,'downloads/'+i[1]+'.jpg')
       count+=1
+      large_link=i[0].split('name=')[0]+'name=large'
+      wget.download(large_link,'downloads/'+i[1]+'_'+str(count)+'.jpg')
+      # with open('log.txt','w') as f:
+      #   subprocess.run(["wget","-O","downloads/{}.jpg".format(i[1]),large_link],stdout=f,stderr=f)
     else:
       count+=1
-      subprocess.run(["yt-dlp"," {}".format(i[0]),"--no-mtime","-o",r"downloads/%(uploader_id)s_%(id)s.%(ext)s"],stdout=sys.stderr)
+      with open('log.txt','w') as f:
+        subprocess.run(["yt-dlp"," {}".format(i[0]),"--no-mtime","-o",r"downloads/%(uploader_id)s_%(id)s.%(ext)s"],stdout=f)
   # send_message('{"msg": "Download Complete!"}')
   msg_string = f'{{"msg": "{count}","button_id":"{curr_id}"}}'
 
