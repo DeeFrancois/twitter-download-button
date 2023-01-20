@@ -8,11 +8,27 @@ Listen for messages from the app.
 port.onMessage.addListener((response) => {
   // console.log("IN MSG");
   // console.log(response);
+  if (response.msg=='recents'){
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){ //Pass message onto Content.js
+      chrome.tabs.sendMessage(tabs[0].id, {
+        "message":"recent-downloads-package",
+        "value":response.value});
+    });
+  } else if(response.msg=='size'){
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){ //Pass message onto Content.js
+      chrome.tabs.sendMessage(tabs[0].id, {
+        "message":"update-size",
+        "value":response.value});
+    });
+  }
+  else{
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs){ //Pass message onto Content.js
     chrome.tabs.sendMessage(tabs[0].id, {
       "message":"downloaded",
       "value":response});
   });
+  }
+
 });
 
 /*
@@ -43,6 +59,13 @@ chrome.runtime.onMessage.addListener(
 
     if(request.message=='archive-link'){
       port.postMessage(['archive',request.value]);
+    }
+
+    if(request.message=='request-downloads'){
+      port.postMessage(['recents',request.value]);
+    }
+    if(request.message=='captions'){
+      port.postMessage(['captions',request.untranslated,request.translated]);
     }
     
   });

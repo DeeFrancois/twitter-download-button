@@ -9,10 +9,13 @@ import logging
 import json
 import subprocess
 import glob
+import gt_caps
+import threading
 # On Windows, the default I/O mode is O_TEXT. Set this to O_BINARY
 # to avoid unwanted modifications of the input/output streams.
 # logging.basicConfig(level=logging.DEBUG)
 # logging.debug('This will get logged')
+# cd 'C:\Program Files\Google\Chrome\Application' chrome.exe --enable-logging --v=1
 
 if sys.platform == "win32":
   import msvcrt
@@ -20,12 +23,29 @@ if sys.platform == "win32":
   msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
 
 # Thread that reads messages from the webapp.
+
+def gt_captions_handler(jsn):
+  global captions_open
+  global gt_captions
+  captions_open=0
+  gt_captions = gt_caps.GTCaptions()
+  if(captions_open == 0):
+    captions_open=1
+    t1 = threading.Thread(target=gt_captions.create_window)
+    t1.start()
+  gt_captions.set_msg(jsn[1],jsn[2])
+
 def downloader(text):
   curr_path = os.getcwd()
   jsn=list(json.loads(text))
   count = 0
   curr_id = jsn[1]
   # print(jsn[0],file=sys.stderr)
+  if (jsn[0] == 'captions'):
+    gt_captions_handler(jsn)
+    print(text,file=sys.stderr)
+    # print(jsn,file=sys.stderr)
+    return
   if (jsn[0] == 'open'):
     print('startfile',file=sys.stderr)
     os.startfile('downloads')
@@ -37,16 +57,20 @@ def downloader(text):
     os.startfile(latest_file)
     print(latest_file,file=sys.stderr)
     return
+  if(jsn[0]=='recents'):
+    list_of_files = glob.glob('downloads/*')
+    list_of_files.sort(key=os.path.getctime)
+    # print(list_of_files)
+    filenames = [x.split('\\')[1] for x in reversed(list_of_files)]
+    msg_string = f'{{"msg": "recents","value":"{filenames[:20]}"}}'
+    send_message(msg_string)
+    return
   # if (jsn[0]=='archive'):
   #   print("ARCHIVING: ",jsn[1],file=sys.stderr)
   #   f = open("archive.txt", "a")
   #   f.write(jsn[1]+'\n')
   #   f.close()
   #   return
-
-    
-
-
   
   for i in jsn[0]:
     # print(i,sys.stderr)
@@ -65,10 +89,19 @@ def downloader(text):
 
   send_message(msg_string)
 
+  msg_string = f'{{"msg": "size","value":"{get_folder_size()}"}}'
+  send_message(msg_string)
   # wget.download(text[0],text[1]+'.jpg')
   # os.system("start cmd /c python downloader.py")
   # subprocess.Popen(["python.exe", "downloader.py"])
   # sys.exit(0)  
+def get_folder_size():
+  size=0
+  for path, dirs, files in os.walk('downloads/'):
+    for f in files:
+        fp = os.path.join(path, f)
+        size += os.path.getsize(fp)
+  return (size/1000000)
 
 def read_thread_func():
   while True:

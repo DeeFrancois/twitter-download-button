@@ -1,7 +1,7 @@
 var button_count = 0;
-window.initial_config = {childList:true, subtree:true,}
 var last_url=location.href;
 var add_nav=1;
+window.initial_config = {childList:true, subtree:true,}
 var callback = function(mutationsList, observer){
     
     //console.log("Debug - Waiting for Video");
