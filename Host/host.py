@@ -65,14 +65,18 @@ def downloader(text):
     msg_string = f'{{"msg": "recents","value":"{filenames[:20]}"}}'
     send_message(msg_string)
     return
-  # if (jsn[0]=='archive'):
-  #   print("ARCHIVING: ",jsn[1],file=sys.stderr)
-  #   f = open("archive.txt", "a")
-  #   f.write(jsn[1]+'\n')
-  #   f.close()
-  #   return
+  if (jsn[0]=='archive'):
+    print("ARCHIVING: ",jsn[1],file=sys.stderr)
+    f = open("archive.txt", "a")
+    f.write(jsn[1]+'\n')
+    f.close()
+    return
   
   for i in jsn[0]:
+    f = open("archive.txt", "a")
+    f.write(i[0]+'\n')
+    f.close()
+
     # print(i,sys.stderr)
     if('jpg' in i[0]):
       count+=1
@@ -82,8 +86,18 @@ def downloader(text):
       #   subprocess.run(["wget","-O","downloads/{}.jpg".format(i[1]),large_link],stdout=f,stderr=f)
     else:
       count+=1
-      with open('log.txt','w') as f:
-        subprocess.run(["yt-dlp"," {}".format(i[0]),"--no-mtime","-o",r"downloads/%(uploader_id)s_%(id)s.%(ext)s"],stdout=f)
+      with open('log.txt','a') as f:
+        print(i[0],file=sys.stderr)
+        id=i[0].split('/')[-1]
+        uploader=i[0].split('/')[3]
+        output='downloads/{}_{}.mp4'.format(uploader,id)
+        # subprocess.run(["yt-dlp"," {}".format(i[0]),"--no-mtime","-o",r"downloads/%(uploader_id)s_%(id)s.%(ext)s"],stdout=sys.stderr)
+        subprocess.run(["yt-dlp"," {}".format(i[0]),"--cookies-from-browser", "firefox", "--no-mtime","-o",output],stdout=f)
+        if(os.path.isfile(output)):
+          print("DOWNLOAD SUCCESSFUL?",file=sys.stderr)
+        else:
+          print("DOWNLOAD UNSUCCESSFUL",file=sys.stderr)
+          return
   # send_message('{"msg": "Download Complete!"}')
   msg_string = f'{{"msg": "{count}","button_id":"{curr_id}"}}'
 
