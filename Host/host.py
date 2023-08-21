@@ -78,7 +78,7 @@ def downloader(text):
     f.close()
 
     # print(i,sys.stderr)
-    if('jpg' in i[0]):
+    if('jpg' in i[0] or 'webp' in i[0]):
       count+=1
       large_link=i[0].split('name=')[0]+'name=large'
       wget.download(large_link,'downloads/'+i[1]+'_'+str(count)+'.jpg')
