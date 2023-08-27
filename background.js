@@ -38,10 +38,25 @@ On a click on the browser action, send the app a message.
 //   console.log("Sending:  ping");
 //   port.postMessage("ping");
 // });
+function contextmenucallback(event){
+  console.log("CONTEXT MENU HERE RERERE HEHRERE",event)
+  if(event.menuItemId === 'my-contextmenu-entry'){
+    console.log("OKAY")
+    link = event.pageUrl
+    button_id="notavailable"
+    port.postMessage(['global_ytdlp',link]);
+  }
+}
+chrome.contextMenus.onClicked.addListener(contextmenucallback);
+
+chrome.contextMenus.create(
+  {title: 'ytdlp',id: 'my-contextmenu-entry'}
+);
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if(request.message=="postmessage"){
+      console.log(request.value); // [Link,calculated_filename]
       port.postMessage([request.value,request.button_id]);
       // let links = request.value;
       // console.log(links);

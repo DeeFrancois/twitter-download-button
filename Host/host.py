@@ -72,12 +72,28 @@ def downloader(text):
     f.close()
     return
   
+  if (jsn[0]=='global_ytdlp'):
+    print("GLOBAL DOWNLOAD: ",jsn[1],file=sys.stderr)
+    f = open("archive.txt", "a")
+    f.write('GLOBAL: ' + jsn[1]+'\n')
+    f.close()
+    output = "downloads/%(title)s_%(id)s.%(ext)s"
+    with open('log.txt','a') as f:
+      subprocess.run(["yt-dlp"," {}".format(jsn[1]),"--cookies-from-browser", "firefox", "--no-mtime","-o", output],stdout=f)
+    msg_string = f'{{"msg": "1","button_id":""}}'
+
+    send_message(msg_string)
+    print("DOWNLOADED",file=sys.stderr)
+    return
+
+  
   for i in jsn[0]:
     f = open("archive.txt", "a")
     f.write(i[0]+'\n')
     f.close()
 
     # print(i,sys.stderr)
+
     if('jpg' in i[0] or 'webp' in i[0]):
       count+=1
       large_link=i[0].split('name=')[0]+'name=large'

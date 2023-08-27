@@ -12,13 +12,13 @@
     
     "content_scripts":[
         {
-            "matches":["https://*.twitter.com/*","https://*.translate.google.com/*"],
+            "matches":["https://*.twitter.com/*","https://*.translate.google.com/*","<all_urls>"],
             "js":["jquery-3.5.1.min.js","content.js","experiment.js","google_translate.js"]
         }
     ],
     "action":{
         "default_icon":"icons/icon32.png"
     },
-    "permissions":["nativeMessaging"]
+    "permissions":["nativeMessaging","contextMenus"]
 
 }
